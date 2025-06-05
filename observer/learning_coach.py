@@ -1,0 +1,262 @@
+# observer/learning_coach.py
+import os
+import json
+import logging
+from datetime import datetime
+
+# Assuming ROOT_DIR and get_config are available via core.config
+# This might need adjustment depending on how it's called
+try:
+    # Ensure core.config is importable. It adds ROOT_DIR to sys.path.
+    from core.config import get_config, ROOT_DIR
+except ImportError:
+    # Fallback if run standalone or config path issue
+    # This assumes the script is in observer/ and core/ is a sibling directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.dirname(current_dir) 
+    print(f"Warning: Could not import from core.config. Using ROOT_DIR: {ROOT_DIR}")
+    # Define a dummy get_config or load config directly if needed for paths
+    # In a real scenario, ensure core.config is properly set up and importable
+    def get_config(key, default=None):
+        # Dummy implementation
+        if key == "paths.logs":
+            return os.path.join(ROOT_DIR, "logs")
+        # Load config manually if needed for other paths
+        return default
+
+logger = logging.getLogger(__name__)
+
+class LearningCoach:
+    """Manages player learning profiles, identifying patterns and weaknesses over time."""
+    def __init__(self, summoner_name: str):
+        """
+        Initializes the Learning Coach for a specific player.
+
+        Args:
+            summoner_name (str): The summoner name of the player.
+        """
+        if not summoner_name:
+             raise ValueError("Summoner name cannot be empty.")
+        self.summoner_name = summoner_name
+        self.log_dir = get_config("paths.logs", os.path.join(ROOT_DIR, "logs"))
+        self.profile_dir = os.path.join(self.log_dir, "player_profiles")
+        self.profile_path = os.path.join(self.profile_dir, f"{self.summoner_name}.json")
+        os.makedirs(self.profile_dir, exist_ok=True)
+        self.profile_data = self._load_profile()
+        logger.info(f"Learning Coach initialized for player: {self.summoner_name}")
+
+    def _load_profile(self) -> dict:
+        """Loads the player's learning profile from a JSON file."""
+        try:
+            if os.path.exists(self.profile_path):
+                with open(self.profile_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    # Basic validation
+                    if data.get("summoner_name") == self.summoner_name:
+                        logger.debug(f"Loaded profile for {self.summoner_name}")
+                        return data
+                    else:
+                        logger.warning(f"Profile summoner name mismatch in {self.profile_path}. Creating new profile.")
+                        return self._create_default_profile()
+            else:
+                logger.info(f"No existing profile found for {self.summoner_name}. Creating new profile.")
+                return self._create_default_profile()
+        except json.JSONDecodeError:
+            logger.exception(f"Error decoding JSON from {self.profile_path}. Creating new profile.")
+            return self._create_default_profile()
+        except Exception as e:
+            logger.exception(f"Failed to load profile for {self.summoner_name}: {e}")
+            return self._create_default_profile()
+
+    def _save_profile(self) -> None:
+        """Saves the player's learning profile to a JSON file."""
+        try:
+            # Ensure last updated timestamp is current
+            self.profile_data["last_updated"] = datetime.now().isoformat()
+            with open(self.profile_path, 'w', encoding='utf-8') as f:
+                json.dump(self.profile_data, f, indent=4, ensure_ascii=False)
+            logger.debug(f"Saved profile for {self.summoner_name}")
+        except Exception as e:
+            logger.exception(f"Failed to save profile for {self.summoner_name}: {e}")
+
+    def _create_default_profile(self) -> dict:
+        """Creates a default structure for a new player profile."""
+        return {
+            "summoner_name": self.summoner_name,
+            "created_at": datetime.now().isoformat(),
+            "last_updated": datetime.now().isoformat(),
+            "match_history": [], # List of match IDs or brief summaries
+            "identified_patterns": {
+                "strengths": [],
+                "weaknesses": [],
+                "tendencies": {} # e.g., {"forced_fights_without_flash": 0, "late_rotations_post_objective": 0}
+            },
+            "coaching_style_preference": get_config("v2_3.coach_style", "adaptive"), # Get default from config
+            "learning_metrics": {
+                "games_analyzed": 0,
+                "common_mistakes_count": {}
+            }
+        }
+
+    def analyze_match_data(self, match_report: dict) -> None:
+        """
+        Analyzes data from a single match report to update the player's profile.
+        This requires the match_report structure generated by GameAnalyzer.
+        
+        Args:
+            match_report (dict): The report generated by GameAnalyzer.
+        """
+        if not match_report or not isinstance(match_report, dict):
+            logger.warning("Invalid match report received for analysis.")
+            return
+            
+        match_id = match_report.get('match_id', 'N/A')
+        logger.info(f"Analyzing match data for {self.summoner_name} from match {match_id}")
+        
+        # Avoid adding duplicate match history entries
+        if match_id != 'N/A' and match_id not in self.profile_data["match_history"]:
+             self.profile_data["match_history"].append(match_id)
+
+        # --- Pattern Identification Logic --- 
+        patterns = self.profile_data["identified_patterns"]
+        tendencies = patterns.get("tendencies", {})
+        weaknesses = patterns.get("weaknesses", [])
+        mistake_counts = self.profile_data["learning_metrics"].get("common_mistakes_count", {})
+
+        # Analyze tactical failures from the report
+        tactical_failures = match_report.get("tactical_analysis", {}).get("major_failures", [])
+        for failure in tactical_failures:
+            # Example: Normalize or categorize failures for pattern matching
+            failure_key = self._normalize_failure(failure)
+            if failure_key:
+                # Increment tendency count
+                tendencies[failure_key] = tendencies.get(failure_key, 0) + 1
+                # Increment overall mistake count
+                mistake_counts[failure_key] = mistake_counts.get(failure_key, 0) + 1
+                
+                # Example threshold to add to weaknesses list (e.g., after 3 occurrences)
+                if tendencies[failure_key] >= 3 and failure_key not in weaknesses:
+                    weaknesses.append(failure_key)
+                    logger.info(f"New weakness identified for {self.summoner_name}: {failure_key}")
+
+        # Analyze ignored suggestions
+        ignored_suggestions = match_report.get("coaching_summary", {}).get("missed_opportunities", [])
+        for suggestion in ignored_suggestions:
+             suggestion_key = self._normalize_suggestion(suggestion)
+             if suggestion_key:
+                  tendencies[suggestion_key] = tendencies.get(suggestion_key, 0) + 1
+                  mistake_counts[suggestion_key] = mistake_counts.get(suggestion_key, 0) + 1
+                  if tendencies[suggestion_key] >= 2 and suggestion_key not in weaknesses:
+                       weaknesses.append(suggestion_key)
+                       logger.info(f"New weakness identified (ignoring advice): {suggestion_key}")
+
+        # Update profile data
+        self.profile_data["identified_patterns"]["tendencies"] = tendencies
+        self.profile_data["identified_patterns"]["weaknesses"] = weaknesses
+        self.profile_data["learning_metrics"]["common_mistakes_count"] = mistake_counts
+        self.profile_data["learning_metrics"]["games_analyzed"] = self.profile_data["learning_metrics"].get("games_analyzed", 0) + 1
+
+        self._save_profile()
+        logger.info(f"Profile updated for {self.summoner_name} after analyzing match {match_id}")
+
+    def _normalize_failure(self, failure_text: str) -> Optional[str]:
+        """Normalizes failure descriptions into keys for pattern tracking (Example)."""
+        text = failure_text.lower()
+        if "outnumbered" in text and "fight" in text:
+            return "fought_outnumbered"
+        if "split pushing without vision" in text:
+            return "split_push_no_vision"
+        if "poor positioning" in text and ("baron" in text or "dragon" in text):
+             return "poor_objective_fight_positioning"
+        # Add more normalization rules
+        return None # Return None if no specific pattern matched
+        
+    def _normalize_suggestion(self, suggestion_text: str) -> Optional[str]:
+        """Normalizes ignored suggestions into keys (Example)."""
+        text = suggestion_text.lower()
+        if "reset" in text or "back" in text or "recall" in text:
+            return "ignored_reset_advice"
+        if "vision" in text or "ward" in text:
+             return "ignored_vision_advice"
+        if "objective" in text or "dragon" in text or "baron" in text or "herald" in text:
+             return "ignored_objective_advice"
+        if "roam" in text:
+             return "ignored_roaming_advice"
+        # Add more
+        return None
+
+    def get_player_profile(self) -> dict:
+        """Returns the current player profile data."""
+        return self.profile_data
+
+    def get_identified_patterns(self) -> dict:
+        """Returns identified strengths, weaknesses, and tendencies."""
+        return self.profile_data.get("identified_patterns", {})
+
+    def suggest_coaching_style(self) -> str:
+        """
+        Suggests a coaching style based on learned patterns and config.
+        Returns the suggested style name (e.g., 'tutor', 'consultant').
+        """
+        config_style = get_config("v2_3.coach_style", "adaptive")
+        if config_style != "adaptive":
+            return config_style # Use style set in config if not adaptive
+
+        # Adaptive logic (example)
+        weaknesses = self.profile_data.get("identified_patterns", {}).get("weaknesses", [])
+        games_analyzed = self.profile_data.get("learning_metrics", {}).get("games_analyzed", 0)
+
+        if games_analyzed < 5: # Still learning about the player
+            return "tutor" # Start with more explanation
+        elif len(weaknesses) >= 3:
+            return "tutor" # Focus on explaining fundamentals for identified weaknesses
+        elif len(weaknesses) == 0 and games_analyzed > 10: # Player seems consistent
+             return "consultant" # Offer higher-level strategy
+        else:
+            return "adaptive" # Default adaptive mix
+
+# Example Usage (for testing within the module)
+# if __name__ == "__main__":
+#     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+#     # Ensure core.config is importable or provide necessary paths
+#     try:
+#         # Example: Create a dummy player profile file for testing
+#         player = "TestPlayer123"
+#         profile_dir = os.path.join(ROOT_DIR, "logs", "player_profiles")
+#         os.makedirs(profile_dir, exist_ok=True)
+#         profile_path = os.path.join(profile_dir, f"{player}.json")
+#         if os.path.exists(profile_path):
+#              os.remove(profile_path)
+#              print(f"Removed existing test profile: {profile_path}")
+#
+#         coach = LearningCoach(summoner_name=player)
+#         print("--- Initial Profile ---")
+#         print(json.dumps(coach.get_player_profile(), indent=2))
+#         print(f"Initial suggested style: {coach.suggest_coaching_style()}")
+#
+#         # Simulate analyzing a match report
+#         mock_report = {
+#             "match_id": "NA1_1234567890",
+#             "timestamp": datetime.now().isoformat(),
+#             "tactical_analysis": {"major_failures": ["Teamfight lost near dragon_pit at 1200s (outnumbered 4v5)", "Caught split pushing without vision"]},
+#             "coaching_summary": {"missed_opportunities": ["Push mid wave before roaming bot", "Avoid fighting outnumbered at dragon"]}
+#         }
+#         coach.analyze_match_data(mock_report)
+#
+#         print("\n--- Profile after one match ---")
+#         print(json.dumps(coach.get_player_profile(), indent=2))
+#         print(f"Suggested style: {coach.suggest_coaching_style()}")
+#
+#         # Simulate more matches to trigger pattern identification
+#         for i in range(3):
+#              coach.analyze_match_data(mock_report) # Analyze the same report multiple times
+#
+#         print("\n--- Profile after multiple matches ---")
+#         print(json.dumps(coach.get_player_profile(), indent=2))
+#         print(f"Final suggested style: {coach.suggest_coaching_style()}")
+#
+#     except Exception as e:
+#         print(f"Error during example execution: {e}")
+#         import traceback
+#         traceback.print_exc()
+

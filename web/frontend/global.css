@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos globais */
+html, body {
+  @apply h-full;
+}
+
+body {
+  @apply bg-neutral-50 text-neutral-800 font-sans;
+}
+
+h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+h2 {
+  @apply text-xl font-semibold mb-3;
+}
+
+h3 {
+  @apply text-lg font-medium mb-2;
+}
+
+/* Componentes customizados */
+.btn {
+  @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700;
+}
+
+.btn-secondary {
+  @apply bg-secondary-600 text-white hover:bg-secondary-700;
+}
+
+.btn-outline {
+  @apply border border-neutral-300 hover:bg-neutral-100;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-card p-4 mb-4;
+}
+
+.input {
+  @apply w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+.select {
+  @apply w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+.textarea {
+  @apply w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+.badge {
+  @apply inline-block px-2 py-1 text-xs font-medium rounded-full;
+}
+
+.badge-primary {
+  @apply bg-primary-100 text-primary-800;
+}
+
+.badge-secondary {
+  @apply bg-secondary-100 text-secondary-800;
+}
+
+.badge-neutral {
+  @apply bg-neutral-100 text-neutral-800;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-400;
+}

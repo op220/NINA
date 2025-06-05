@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Tático - Nina IA</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c2f33; /* Dark background */
+            color: #ffffff;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        #map-container {
+            position: relative;
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            background-image: url("placeholder_map.png"); /* Placeholder for actual map image */
+            background-color: #1a1c1e; /* Fallback color */
+            background-size: contain; /* Fit map within container */
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden;
+        }
+        .map-icon {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            transition: all 0.2s ease-in-out;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+        .champion-ally {
+            background-color: #007bff;
+            border-color: #0056b3;
+            color: white;
+        }
+        .champion-enemy {
+            background-color: #dc3545;
+            border-color: #a71d2a;
+            color: white;
+        }
+        .ward-ally {
+            background-color: #28a745;
+            border-color: #1e7e34;
+            width: 10px;
+            height: 10px;
+        }
+        .ward-enemy {
+            background-color: #ffc107;
+            border-color: #d39e00;
+            width: 10px;
+            height: 10px;
+        }
+        .objective {
+            background-color: #6f42c1;
+            border-color: #5a349a;
+            width: 25px;
+            height: 25px;
+            color: white;
+            font-size: 12px;
+        }
+        .ping {
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px solid red;
+            animation: ping-animation 1s infinite;
+        }
+        @keyframes ping-animation {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.5); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+        #info-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        #timestamp {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="map-container">
+        <!-- Icons will be dynamically added here by JavaScript -->
+        <!-- Example Placeholder Icons -->
+        <div class="map-icon champion-ally" style="left: 30%; top: 70%;" title="Ally Champion">A</div>
+        <div class="map-icon champion-enemy" style="left: 50%; top: 50%;" title="Enemy Champion">E</div>
+        <div class="map-icon ward-ally" style="left: 45%; top: 55%;" title="Ally Ward"></div>
+        <div class="map-icon ward-enemy" style="left: 55%; top: 45%;" title="Enemy Ward"></div>
+        <div class="map-icon objective" style="left: 70%; top: 20%;" title="Dragon">D</div>
+        <div class="map-icon ping" style="left: 60%; top: 60%;" title="Ping"></div>
+    </div>
+
+    <div id="info-panel">
+        <div>Mapa Tático (Atualização: <span id="timestamp">HH:MM:SS</span>)</div>
+        <div>Aliados Visíveis: <span id="allies-visible">1</span></div>
+        <div>Inimigos Visíveis: <span id="enemies-visible">1</span></div>
+        <div>Sentinelas Aliadas: <span id="wards-ally">1</span></div>
+        <div>Sentinelas Inimigas: <span id="wards-enemy">1</span></div>
+    </div>
+
+    <script>
+        // Placeholder JavaScript for dynamic updates
+        // In a real application, this script would:
+        // 1. Connect to a backend (e.g., via WebSocket) or periodically fetch data.
+        // 2. Receive map data updates (positions of champions, wards, objectives, pings).
+        // 3. Clear existing icons from the map container.
+        // 4. Create and position new icons based on the received data.
+        // 5. Update the info panel.
+
+        const mapContainer = document.getElementById("map-container");
+        const timestampEl = document.getElementById("timestamp");
+        const alliesVisibleEl = document.getElementById("allies-visible");
+        const enemiesVisibleEl = document.getElementById("enemies-visible");
+        const wardsAllyEl = document.getElementById("wards-ally");
+        const wardsEnemyEl = document.getElementById("wards-enemy");
+
+        function updateMap(mapData) {
+            // Clear previous icons (except the placeholder examples if needed for static view)
+            const dynamicIcons = mapContainer.querySelectorAll(".dynamic-icon");
+            dynamicIcons.forEach(icon => icon.remove());
+
+            let alliesVisible = 0;
+            let enemiesVisible = 0;
+            let allyWards = 0;
+            let enemyWards = 0;
+
+            // Add champion icons
+            mapData.champions.forEach(champ => {
+                const icon = document.createElement("div");
+                icon.classList.add("map-icon", "dynamic-icon");
+                icon.classList.add(champ.type === "ally" ? "champion-ally" : "champion-enemy");
+                icon.style.left = `${champ.position[0] * 100}%`;
+                icon.style.top = `${champ.position[1] * 100}%`;
+                icon.title = `${champ.type === "ally" ? "Ally" : "Enemy"} Champion (${champ.id})`;
+                icon.textContent = champ.type === "ally" ? "A" : "E"; // Simple identifier
+                if (!champ.is_visible) {
+                    icon.style.opacity = "0.5";
+                    icon.title += " (Not Visible)";
+                } else {
+                    if (champ.type === "ally") alliesVisible++;
+                    else enemiesVisible++;
+                }
+                mapContainer.appendChild(icon);
+            });
+
+            // Add ward icons
+            mapData.wards.forEach(ward => {
+                const icon = document.createElement("div");
+                icon.classList.add("map-icon", "dynamic-icon");
+                icon.classList.add(ward.type.startsWith("ally") ? "ward-ally" : "ward-enemy");
+                icon.style.left = `${ward.position[0] * 100}%`;
+                icon.style.top = `${ward.position[1] * 100}%`;
+                icon.title = `Ward (${ward.type})`;
+                 if (ward.type.startsWith("ally")) allyWards++;
+                 else enemyWards++;
+                mapContainer.appendChild(icon);
+            });
+
+            // Add objective icons (simplified)
+            mapData.objectives.forEach(obj => {
+                 if (obj.status === "alive") { // Only show alive objectives
+                    const icon = document.createElement("div");
+                    icon.classList.add("map-icon", "objective", "dynamic-icon");
+                    icon.style.left = obj.type === "dragon" ? "70%" : "30%"; // Example fixed positions
+                    icon.style.top = obj.type === "dragon" ? "80%" : "20%";
+                    icon.title = `${obj.type.charAt(0).toUpperCase() + obj.type.slice(1)} (${obj.status})`;
+                    icon.textContent = obj.type.charAt(0).toUpperCase(); 
+                    mapContainer.appendChild(icon);
+                 }
+            });
+            
+            // Add ping icons
+            mapData.pings.forEach(ping => {
+                const icon = document.createElement("div");
+                icon.classList.add("map-icon", "ping", "dynamic-icon");
+                icon.style.left = `${ping.position[0] * 100}%`;
+                icon.style.top = `${ping.position[1] * 100}%`;
+                icon.title = `Ping (${ping.type})`;
+                mapContainer.appendChild(icon);
+                // Remove ping after a short duration
+                setTimeout(() => icon.remove(), 1500);
+            });
+
+            // Update info panel
+            const now = new Date(mapData.timestamp * 1000);
+            timestampEl.textContent = now.toLocaleTimeString("pt-BR");
+            alliesVisibleEl.textContent = alliesVisible;
+            enemiesVisibleEl.textContent = enemiesVisible;
+            wardsAllyEl.textContent = allyWards;
+            wardsEnemyEl.textContent = enemyWards;
+        }
+
+        // --- Simulation for Placeholder --- 
+        function generateMockMapData() {
+            const champions = [];
+            for (let i = 0; i < 10; i++) {
+                champions.push({
+                    id: `champ_${i}`,
+                    type: i < 5 ? "ally" : "enemy",
+                    position: [Math.random(), Math.random()],
+                    is_visible: Math.random() > 0.3
+                });
+            }
+            const wards = [];
+            for (let i = 0; i < 6; i++) {
+                 wards.push({
+                    id: `ward_${i}`,
+                    type: i < 3 ? "ally_stealth" : "enemy_stealth",
+                    position: [Math.random(), Math.random()],
+                 });
+            }
+            const objectives = [
+                 {type: "dragon", status: Math.random() > 0.5 ? "alive" : "respawning"},
+                 {type: "baron", status: Math.random() > 0.7 ? "alive" : "respawning"}
+            ];
+            const pings = [];
+            if (Math.random() > 0.8) {
+                 pings.push({type: "danger", position: [Math.random(), Math.random()]});
+            }
+            
+            return {
+                timestamp: Date.now() / 1000,
+                champions: champions,
+                wards: wards,
+                objectives: objectives,
+                pings: pings
+            };
+        }
+
+        // Update map periodically with mock data for demonstration
+        setInterval(() => {
+            const mockData = generateMockMapData();
+            updateMap(mockData);
+        }, 2000); // Update every 2 seconds
+
+        // Initial update
+        updateMap(generateMockMapData());
+
+    </script>
+</body>
+</html>

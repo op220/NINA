@@ -1,0 +1,1 @@
+{"enabled": true, "memory_db_path": ":memory:", "profiles_dir": "test_profiles", "max_context_interactions": 5, "backup_dir": "test_backups", "auto_backup": false}

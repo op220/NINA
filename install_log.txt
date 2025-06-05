@@ -1,0 +1,6 @@
+============================================ 
+  Log de Instalação da Nina IA v2.4         
+  Iniciado em: 02/06/2025 21:30:27,76                
+============================================ 
+                                         
+Python encontrado: C:\IA\nina_ia_v2.4_windows_installer_fixed\nina_ia_corrected\\install_nina_ia_windows.bat                          

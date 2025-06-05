@@ -1,0 +1,73 @@
+{
+  "elo_tiers": [
+    {
+      "elo": "Iron",
+      "common_behaviors": [
+        "Poor last hitting and wave management",
+        "Limited map awareness, infrequent warding",
+        "Frequent fighting without clear objectives",
+        "Basic understanding of champion abilities, poor matchup knowledge",
+        "Slow reaction to pings or map movements"
+      ],
+      "coaching_focus": [
+        "Fundamentals: CSing, basic wave control (push/freeze)",
+        "Map awareness basics: looking at minimap, simple ward spots",
+        "Objective focus: why dragon/herald are important",
+        "Understanding champion roles and basic combos"
+      ]
+    },
+    {
+      "elo": "Bronze",
+      "common_behaviors": [
+        "Slightly improved CSing, but inconsistent wave management",
+        "Basic warding, but often reactive or poorly placed",
+        "Understands objectives but poor timing/setup",
+        "Focus on laning phase, less macro understanding",
+        "Tendency to overchase or take unfavorable fights"
+      ],
+      "coaching_focus": [
+        "Consistent CSing patterns",
+        "Intermediate wave management (slow push, crash timing)",
+        "Objective setup: vision control, wave priority",
+        "Basic roaming concepts",
+        "Risk assessment: when to fight, when to disengage"
+      ]
+    },
+    {
+      "elo": "Silver",
+      "common_behaviors": [
+        "Decent CSing, basic understanding of wave states",
+        "More consistent warding, but vision denial is rare",
+        "Attempts objective control, but coordination can be lacking",
+        "Starts to understand basic macro rotations",
+        "Improved mechanics, but positioning errors are common"
+      ],
+      "coaching_focus": [
+        "Advanced wave management (freeze variations, bounce timing)",
+        "Vision control strategies (deep wards, clearing)",
+        "Objective trading decisions",
+        "Effective roaming and gank setup/avoidance",
+        "Teamfight positioning and target selection"
+      ]
+    },
+    {
+      "elo": "Gold",
+      "common_behaviors": [
+        "Good CSing, understands most wave management concepts",
+        "Consistent vision placement, starts using control wards effectively",
+        "Good objective focus, better team coordination",
+        "Understands macro concepts like split pushing and pressure",
+        "Mechanically proficient on comfort picks, but adaptability varies"
+      ],
+      "coaching_focus": [
+        "Tempo and reset timings",
+        "Advanced macro strategy (split push coordination, map pressure)",
+        "Drafting concepts and win conditions",
+        "Adapting playstyle based on game state",
+        "Minimizing unforced errors"
+      ]
+    }
+    // Add Platinum, Diamond, Master, etc. with increasing complexity
+  ]
+}
+

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Replay - Nina IA</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --bg-color: #f4f7fc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        .upload-area:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5a84;
+            border-color: #3a5a84;
+        }
+        
+        .btn-secondary {
+            color: #fff;
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        
+        .file-info {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .progress {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .status-message {
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--secondary);
+        }
+        
+        .analysis-results {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            margin-right: 5px;
+            margin-bottom: -1px;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metric-card {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+        
+        .timeline-item:last-child {
+            border-left: none;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+        
+        .timeline-time {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .success-item::before {
+            background-color: var(--success);
+        }
+        
+        .error-item::before {
+            background-color: var(--danger);
+        }
+        
+        .warning-item::before {
+            background-color: var(--warning);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .metric-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .tab.active {
+                border-bottom-color: #dee2e6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Análise de Replay - Nina IA</h1>
+            <p>Faça upload de um replay para análise tática detalhada</p>
+        </header>
+        
+        <div class="card">
+            <h2>Upload de Replay</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <h3>Arraste e solte seu arquivo de replay aqui</h3>
+                <p>ou</p>
+                <button class="btn btn-primary" id="selectFileBtn">Selecionar Arquivo</button>
+                <input type="file" id="fileInput" style="display: none;" accept=".mp4,.rofl,.webm">
+                <p class="status-message">Formatos suportados: .mp4, .rofl, .webm</p>
+            </div>
+            
+            <div class="file-info" id="fileInfo">
+                <h3>Arquivo Selecionado:</h3>
+                <p id="fileName">nome_do_arquivo.mp4</p>
+                <p id="fileSize">Tamanho: 15.2 MB</p>
+                <button class="btn btn-primary" id="analyzeBtn">Analisar Replay</button>
+                <button class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+            </div>
+            
+            <div class="progress-container" id="progressContainer">
+                <h3>Analisando Replay...</h3>
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="status-message" id="progressStatus">Iniciando análise...</p>
+            </div>
+        </div>
+        
+        <div class="analysis-results" id="analysisResults">
+            <div class="card">
+                <h2>Resultados da Análise</h2>
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">KDA</div>
+                        <div class="metric-value" id="kdaValue">8/2/10</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">CS/min</div>
+                        <div class="metric-value" id="csValue">7.8</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Visão</div>
+                        <div class="metric-value" id="visionValue">42</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Resultado</div>
+                        <div class="metric-value" id="resultValue">Vitória</div>
+                    </div>
+                </div>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="tactical">Análise Tática</div>
+                        <div class="tab" data-tab="timeline">Linha do Tempo</div>
+                        <div class="tab" data-tab="suggestions">Sugestões</div>
+                        <div class="tab" data-tab="report">Relatório Completo</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="tacticalTab">
+                        <h3>Análise Tática</h3>
+                        <div id="tacticalAnalysis">
+                            <h4>Pontos Fortes</h4>
+                            <ul id="strengthsList">
+                                <li>Bom controle de objetivos (3/4 dragões)</li>
+                                <li>Excelente posicionamento nas lutas em equipe</li>
+                            </ul>
+                            
+                            <h4>Pontos Fracos</h4>
+                            <ul id="weaknessesList">
+                                <li>Timing de reset inadequado após primeira torre</li>
+                                <li>Visão defensiva insuficiente na selva inimiga</li>
+                            </ul>
+                            
+                            <h4>Gerenciamento de Wave</h4>
+                            <p id="waveManagement">
+                                Você teve bom controle de wave na fase de rotas, mas perdeu oportunidades de freeze após os 15 minutos. 
+                                Considere manter a wave congelada quando seu jungler está no lado oposto do mapa.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="timelineTab">
+                        <h3>Linha do Tempo</h3>
+                        <div class="timeline" id="matchTimeline">
+                            <!-- Timeline items will be generated here -->
+                            <div class="timeline-item">
+                                <div class="timeline-time">3:45</div>
+                                <div class="timeline-content">
+                                    Primeira eliminação na rota superior.
+                                </div>
+                            </div>
+                            <div class="timeline-item error-item">
+                                <div class="timeline-time">8:20</div>
+                                <div class="timeline-content">
+                                    Morte evitável na invasão da selva sem visão.
+                                </div>
+                            </div>
+                            <div class="timeline-item success-item">
+                                <div class="timeline-time">14:05</div>
+                                <div class="timeline-content">
+                                    Excelente rotação para o primeiro dragão, resultando em ace.
+                                </div>
+                            </div>
+                            <div class="timeline-item warning-item">
+                                <div class="timeline-time">22:30</div>
+                                <div class="timeline-content">
+                                    Oportunidade perdida de Baron após eliminar o jungler inimigo.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="suggestionsTab">
+                        <h3>Sugestões de Melhoria</h3>
+                        <div id="improvementSuggestions">
+                            <h4>Prioridade Alta</h4>
+                            <ul>
+                                <li>Melhorar timing de reset após objetivos (observado em 12:30 e 24:15)</li>
+                                <li>Aumentar controle de visão na selva inimiga antes de rotações</li>
+                            </ul>
+                            
+                            <h4>Prioridade Média</h4>
+                            <ul>
+                                <li>Praticar gerenciamento de wave em desvantagem numérica</li>
+                                <li>Coordenar melhor com o suporte para invasões de visão</li>
+                            </ul>
+                            
+                            <h4>Foco de Treinamento Recomendado</h4>
+                            <p>
+                                Com base na análise, recomendamos focar em <strong>timing de reset e controle de visão</strong> 
+                                nas próximas 5-10 partidas. Isso deve melhorar significativamente sua segurança e presença no mapa.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="reportTab">
+                        <h3>Relatório Completo</h3>
+                        <div id="fullReport">
+                            <p>O relatório completo está disponível para download no formato JSON.</p>
+                            <button class="btn btn-primary" id="downloadReportBtn">Baixar Relatório</button>
+                            
+                            <div id="reportPreview" style="margin-top: 20px;">
+                                <pre style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow: auto; max-height: 300px;">
+{
+  "match_id": "replay_analysis_12345",
+  "player_name": "SummonerName",
+  "champion": "Jinx",
+  "duration": "32:45",
+  "result": "Victory",
+  "performance_metrics": {
+    "kda": "8/2/10",
+    "cs_per_min": 7.8,
+    "vision_score": 42,
+    "damage_share": "32%"
+  },
+  "tactical_analysis": {
+    "strengths": [
+      "Objective control (3/4 dragons)",
+      "Excellent teamfight positioning"
+    ],
+    "weaknesses": [
+      "Poor reset timing after first tower",
+      "Insufficient defensive vision in enemy jungle"
+    ]
+  },
+  // ... more data ...
+}
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressStatus = document.getElementById('progressStatus');
+        const analysisResults = document.getElementById('analysisResults');
+        const downloadReportBtn = document.getElementById('downloadReportBtn');
+        
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+            });
+        });
+        
+        // File selection
+        selectFileBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4a6fa5';
+            uploadArea.style.backgroundColor = 'rgba(74, 111, 165, 0.1)';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#4a6fa5';
+            uploadArea.style.backgroundColor = 'rgba(74, 111, 165, 0.05)';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4a6fa5';
+            uploadArea.style.backgroundColor = 'rgba(74, 111, 165, 0.05)';
+            
+            if (e.dataTransfer.files.length) {
+                handleFileSelection(e.dataTransfer.files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFileSelection(fileInput.files[0]);
+            }
+        });
+        
+        function handleFileSelection(file) {
+            // Display file info
+            fileName.textContent = file.name;
+            fileSize.textContent = `Tamanho: ${formatFileSize(file.size)}`;
+            fileInfo.style.display = 'block';
+            
+            // Store file for later use
+            window.selectedFile = file;
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Analysis process
+        analyzeBtn.addEventListener('click', () => {
+            if (!window.selectedFile) return;
+            
+            // Hide file info and show progress
+            fileInfo.style.display = 'none';
+            progressContainer.style.display = 'block';
+            
+            // Simulate analysis progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Update status
+                    progressStatus.textContent = 'Análise concluída!';
+                    
+                    // Show results after a short delay
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                        analysisResults.style.display = 'block';
+                        
+                        // Populate results with mock data
+                        populateMockResults();
+                    }, 500);
+                }
+                
+                // Update progress bar
+                progressBar.style.width = `${progress}%`;
+                
+                // Update status messages
+                if (progress < 25) {
+                    progressStatus.textContent = 'Processando arquivo de replay...';
+                } else if (progress < 50) {
+                    progressStatus.textContent = 'Extraindo dados de jogo...';
+                } else if (progress < 75) {
+                    progressStatus.textContent = 'Analisando padrões táticos...';
+                } else {
+                    progressStatus.textContent = 'Gerando relatório...';
+                }
+            }, 200);
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            // Reset the form
+            fileInfo.style.display = 'none';
+            progressContainer.style.display = 'none';
+            analysisResults.style.display = 'none';
+            fileInput.value = '';
+            window.selectedFile = null;
+        });
+        
+        downloadReportBtn.addEventListener('click', () => {
+            // Create a mock report JSON
+            const mockReport = {
+                "match_id": "replay_analysis_12345",
+                "player_name": "SummonerName",
+                "champion": "Jinx",
+                "duration": "32:45",
+                "result": "Victory",
+                "performance_metrics": {
+                    "kda": "8/2/10",
+                    "cs_per_min": 7.8,
+                    "vision_score": 42,
+                    "damage_share": "32%"
+                },
+                "tactical_analysis": {
+                    "strengths": [
+                        "Objective control (3/4 dragons)",
+                        "Excellent teamfight positioning"
+                    ],
+                    "weaknesses": [
+                        "Poor reset timing after first tower",
+                        "Insufficient defensive vision in enemy jungle"
+                    ]
+                },
+                "timeline_events": [
+                    {
+                        "time": "3:45",
+                        "type": "normal",
+                        "description": "Primeira eliminação na rota superior."
+                    },
+                    {
+                        "time": "8:20",
+                        "type": "error",
+                        "description": "Morte evitável na invasão da selva sem visão."
+                    },
+                    {
+                        "time": "14:05",
+                        "type": "success",
+                        "description": "Excelente rotação para o primeiro dragão, resultando em ace."
+                    },
+                    {
+                        "time": "22:30",
+                        "type": "warning",
+                        "description": "Oportunidade perdida de Baron após eliminar o jungler inimigo."
+                    }
+                ],
+                "improvement_suggestions": {
+                    "high_priority": [
+                        "Melhorar timing de reset após objetivos (observado em 12:30 e 24:15)",
+                        "Aumentar controle de visão na selva inimiga antes de rotações"
+                    ],
+                    "medium_priority": [
+                        "Praticar gerenciamento de wave em desvantagem numérica",
+                        "Coordenar melhor com o suporte para invasões de visão"
+                    ],
+                    "training_focus": "timing de reset e controle de visão"
+                }
+            };
+            
+            // Create and download the file
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mockReport, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "replay_analysis_report.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+        
+        function populateMockResults() {
+            // Populate metrics
+            document.getElementById('kdaValue').textContent = '8/2/10';
+            document.getElementById('csValue').textContent = '7.8';
+            document.getElementById('visionValue').textContent = '42';
+            document.getElementById('resultValue').textContent = 'Vitória';
+            
+            // Populate tactical analysis
+            document.getElementById('strengthsList').innerHTML = `
+                <li>Bom controle de objetivos (3/4 dragões)</li>
+                <li>Excelente posicionamento nas lutas em equipe</li>
+            `;
+            
+            document.getElementById('weaknessesList').innerHTML = `
+                <li>Timing de reset inadequado após primeira torre</li>
+                <li>Visão defensiva insuficiente na selva inimiga</li>
+            `;
+            
+            document.getElementById('waveManagement').innerHTML = `
+                Você teve bom controle de wave na fase de rotas, mas perdeu oportunidades de freeze após os 15 minutos. 
+                Considere manter a wave congelada quando seu jungler está no lado oposto do mapa.
+            `;
+            
+            // Populate timeline
+            document.getElementById('matchTimeline').innerHTML = `
+                <div class="timeline-item">
+                    <div class="timeline-time">3:45</div>
+                    <div class="timeline-content">
+                        Primeira eliminação na rota superior.
+                    </div>
+                </div>
+                <div class="timeline-item error-item">
+                    <div class="timeline-time">8:20</div>
+                    <div class="timeline-content">
+                        Morte evitável na invasão da selva sem visão.
+                    </div>
+                </div>
+                <div class="timeline-item success-item">
+                    <div class="timeline-time">14:05</div>
+                    <div class="timeline-content">
+                        Excelente rotação para o primeiro dragão, resultando em ace.
+                    </div>
+                </div>
+                <div class="timeline-item warning-item">
+                    <div class="timeline-time">22:30</div>
+                    <div class="timeline-content">
+                        Oportunidade perdida de Baron após eliminar o jungler inimigo.
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+server:
+  host: "127.0.0.1"
+  port: 8000
+
+modules:
+  tts: true
+  stt: true
+  vision: true # Assuming vision module files exist or will be added later
+  discord: false
+  coach_lol: true # Assuming games module files exist
+
+paths:
+  logs: "./logs"
+  database: "./database"
+  profiles: "./profiles"
+
+
+
+v2_3:
+  enable_learning: true
+  enable_macro_analysis: true
+  learning_mode: "passive" # passive | aggressive
+  postgame_reports: true
+  coach_style: "adaptive" # adaptive | tutor | consultant | minimalist
+
+
+
+v2_4:
+  enable_replay_analysis: true
+  enable_combat_simulation: true
+  enable_emotional_feedback: true
+  enable_macro_streaming: true # Assuming this relates to vision/minimap tracking
+  enable_team_mode: true
+  enable_guided_feedback: true
+  replay_folder: "./replays"
+

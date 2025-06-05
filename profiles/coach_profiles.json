@@ -1,0 +1,57 @@
+{
+  "profiles": [
+    {
+      "style_id": "tutor",
+      "description": "Focuses on explaining fundamentals, reasoning behind suggestions, and correcting basic mistakes. Suitable for beginners or players with identified fundamental weaknesses.",
+      "communication_tone": "Explanatory, patient, encouraging",
+      "suggestion_frequency": "High",
+      "suggestion_detail": "Detailed explanation",
+      "focus_areas": [
+        "Fundamentals (CS, wave management, vision)",
+        "Basic champion mechanics",
+        "Objective importance",
+        "Correcting repeated basic errors"
+      ]
+    },
+    {
+      "style_id": "consultant",
+      "description": "Assumes strong fundamentals and focuses on higher-level strategy, macro decisions, and optimizing gameplay. Suitable for experienced players looking for strategic insights.",
+      "communication_tone": "Analytical, strategic, concise",
+      "suggestion_frequency": "Medium",
+      "suggestion_detail": "Strategic reasoning, less mechanical detail",
+      "focus_areas": [
+        "Macro strategy (split push, objective trading)",
+        "Tempo and reset optimization",
+        "Win condition identification",
+        "Advanced teamfight positioning and target selection",
+        "Counter-play strategies"
+      ]
+    },
+    {
+      "style_id": "minimalist",
+      "description": "Provides only critical, concise alerts and suggestions, minimizing interruptions. Suitable for players who prefer less hand-holding and focus primarily on their own gameplay flow.",
+      "communication_tone": "Direct, brief, alert-focused",
+      "suggestion_frequency": "Low",
+      "suggestion_detail": "Keywords or short phrases",
+      "focus_areas": [
+        "Critical objective timers",
+        "Immediate threats (ganks, missing enemies)",
+        "Major tactical errors (e.g., fighting outnumbered)",
+        "Key power spike timings"
+      ]
+    },
+    {
+      "style_id": "adaptive",
+      "description": "Dynamically adjusts the coaching style based on the player's performance, identified weaknesses (via LearningCoach), and game state. Aims to provide the most relevant type of coaching at any given time.",
+      "communication_tone": "Variable (adapts based on context)",
+      "suggestion_frequency": "Variable",
+      "suggestion_detail": "Variable",
+      "focus_areas": [
+        "Prioritizes addressing identified weaknesses",
+        "Adjusts detail based on player's success rate with similar past suggestions",
+        "May switch between tutor/consultant/minimalist based on game phase or player performance"
+      ]
+    }
+  ]
+}
+

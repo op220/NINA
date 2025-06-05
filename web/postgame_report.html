@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Pós-Partida - Nina IA</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #5a5a5a;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .metric {
+            background: #e9e9e9;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+            display: block;
+        }
+        .metric-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+        li::before {
+            content: '\2022'; /* Bullet point */
+            color: #007bff;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+        .success li::before { color: #28a745; content: '\2713'; /* Checkmark */ }
+        .failure li::before { color: #dc3545; content: '\2717'; /* Cross mark */ }
+        .opportunity li::before { color: #ffc107; content: '\26A0'; /* Warning sign */ }
+
+        #loading-message {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #777;
+        }
+        #report-content {
+            display: none; /* Hidden by default, shown after loading */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Relatório Pós-Partida</h1>
+        <div id="loading-message">Carregando dados do relatório...</div>
+
+        <div id="report-content">
+            <div class="section">
+                <h2>Resumo da Partida</h2>
+                <p><strong>ID da Partida:</strong> <span id="match-id">N/A</span></p>
+                <p><strong>Jogador:</strong> <span id="summoner-name">N/A</span></p>
+                <p><strong>Campeão:</strong> <span id="champion-played">N/A</span> (<span id="lane">N/A</span>)</p>
+                <p><strong>Resultado:</strong> <span id="result">N/A</span></p>
+                <p><strong>Duração:</strong> <span id="duration">N/A</span></p>
+                <p><strong>Relatório Gerado em:</strong> <span id="report-generated-at">N/A</span></p>
+            </div>
+
+            <div class="section">
+                <h2>Métricas de Performance</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-label">KDA</span>
+                        <span class="metric-value" id="kda">N/A</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">KDA Ratio</span>
+                        <span class="metric-value" id="kda-ratio">N/A</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">CS Total</span>
+                        <span class="metric-value" id="cs-total">N/A</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">CS/min</span>
+                        <span class="metric-value" id="cs-per-minute">N/A</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Pontuação de Visão</span>
+                        <span class="metric-value" id="vision-score">N/A</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Dano a Campeões</span>
+                        <span class="metric-value" id="damage-dealt">N/A</span>
+                    </div>
+                     <div class="metric">
+                        <span class="metric-label">Dano Recebido</span>
+                        <span class="metric-value" id="damage-taken">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Análise Tática</h2>
+                <h3>Principais Sucessos</h3>
+                <ul id="major-successes" class="success"><li>Nenhum sucesso notável identificado.</li></ul>
+                <h3>Principais Falhas</h3>
+                <ul id="major-failures" class="failure"><li>Nenhuma falha tática grave identificada.</li></ul>
+                <h3>Notas de Gerenciamento de Wave</h3>
+                <ul id="wave-management-notes"><li>Nenhuma nota específica.</li></ul>
+                 <h3>Notas de Timing de Reset</h3>
+                <ul id="reset-timing-notes"><li>Nenhuma nota específica.</li></ul>
+                 <h3>Notas de Roaming</h3>
+                <ul id="roaming-notes"><li>Nenhuma nota específica.</li></ul>
+            </div>
+
+            <div class="section">
+                <h2>Resumo do Coaching</h2>
+                <p><strong>Sugestões Feitas:</strong> <span id="suggestions-made">N/A</span></p>
+                <p><strong>Sugestões Seguidas:</strong> <span id="suggestions-followed">N/A</span> (Rastreamento pendente)</p>
+                <h3>Oportunidades Perdidas / Conselhos Ignorados</h3>
+                <ul id="missed-opportunities" class="opportunity"><li>Nenhuma oportunidade perdida identificada.</li></ul>
+                <h3>Principais Conselhos Dados</h3>
+                <ul id="key-advice-given"><li>Nenhum conselho registrado.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar e exibir dados do relatório JSON
+        function loadReportData(reportData) {
+            if (!reportData) {
+                document.getElementById('loading-message').innerText = 'Erro ao carregar dados do relatório.';
+                return;
+            }
+
+            // --- Preencher Resumo da Partida ---
+            document.getElementById('match-id').innerText = reportData.match_id || 'N/A';
+            document.getElementById('summoner-name').innerText = reportData.summoner_name || 'N/A';
+            document.getElementById('report-generated-at').innerText = reportData.report_generated_at ? new Date(reportData.report_generated_at).toLocaleString('pt-BR') : 'N/A';
+            
+            const summary = reportData.game_summary || {};
+            document.getElementById('champion-played').innerText = summary.champion_played || 'N/A';
+            document.getElementById('lane').innerText = summary.lane || 'N/A';
+            document.getElementById('result').innerText = summary.result || 'N/A';
+            const duration = summary.duration_seconds;
+            document.getElementById('duration').innerText = duration ? `${Math.floor(duration / 60)}m ${duration % 60}s` : 'N/A';
+
+            // --- Preencher Métricas de Performance ---
+            const metrics = reportData.performance_metrics || {};
+            document.getElementById('kda').innerText = metrics.kda || '0/0/0';
+            document.getElementById('kda-ratio').innerText = metrics.kda_ratio || 'N/A';
+            document.getElementById('cs-total').innerText = metrics.cs_total || '0';
+            document.getElementById('cs-per-minute').innerText = metrics.cs_per_minute || '0.0';
+            document.getElementById('vision-score').innerText = metrics.vision_score || '0';
+            document.getElementById('damage-dealt').innerText = metrics.damage_dealt_to_champions || '0';
+            document.getElementById('damage-taken').innerText = metrics.damage_taken || '0';
+
+            // --- Preencher Análise Tática ---
+            const tactics = reportData.tactical_analysis || {};
+            populateList('major-successes', tactics.major_successes, 'Nenhum sucesso notável identificado.');
+            populateList('major-failures', tactics.major_failures, 'Nenhuma falha tática grave identificada.');
+            populateList('wave-management-notes', tactics.wave_management_notes, 'Nenhuma nota específica.');
+            populateList('reset-timing-notes', tactics.reset_timing_notes, 'Nenhuma nota específica.');
+            populateList('roaming-notes', tactics.roaming_notes, 'Nenhuma nota específica.');
+
+            // --- Preencher Resumo do Coaching ---
+            const coaching = reportData.coaching_summary || {};
+            document.getElementById('suggestions-made').innerText = coaching.suggestions_made || '0';
+            document.getElementById('suggestions-followed').innerText = `${coaching.suggestions_followed || '0'} (Rastreamento pendente)`;
+            populateList('missed-opportunities', coaching.missed_opportunities, 'Nenhuma oportunidade perdida identificada.');
+            populateList('key-advice-given', coaching.key_advice_given, 'Nenhum conselho registrado.');
+
+            // Mostrar conteúdo e esconder mensagem de loading
+            document.getElementById('loading-message').style.display = 'none';
+            document.getElementById('report-content').style.display = 'block';
+        }
+
+        // Função auxiliar para popular listas <ul>
+        function populateList(elementId, items, defaultText) {
+            const ul = document.getElementById(elementId);
+            ul.innerHTML = ''; // Limpar conteúdo anterior
+            if (items && items.length > 0) {
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    ul.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = defaultText;
+                li.style.fontStyle = 'italic';
+                li.style.color = '#777';
+                li.style.listStyle = 'none'; // Remover marcador padrão para item default
+                 li.style.paddingLeft = '0';
+                 li.style.position = 'static';
+                 li.style.marginLeft = '0';
+                 li.style.listStyle = 'none';
+                 li.style.setProperty('list-style-type', 'none', 'important');
+                 li.style.setProperty('::before', 'none', 'important');
+                ul.appendChild(li);
+            }
+        }
+
+        // --- Carregamento dos Dados ---
+        // Em um cenário real, você buscaria o JSON de um endpoint ou arquivo.
+        // Para este exemplo, vamos simular o carregamento após um pequeno delay
+        // e usar dados mockados se nenhuma variável global `reportJsonData` for definida.
+        
+        // Exemplo de como injetar dados (poderia vir de um script backend ou fetch API):
+        // const reportJsonData = { ... seu JSON aqui ... }; 
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tenta obter dados de uma variável global (se injetado)
+            if (typeof reportJsonData !== 'undefined') {
+                 console.log("Dados do relatório encontrados na variável global.");
+                 loadReportData(reportJsonData);
+            } else {
+                 console.log("Nenhum dado de relatório injetado. Tentando buscar de 'report.json' (exemplo).");
+                 // Fallback: Tenta carregar de um arquivo JSON local (para teste)
+                 // NOTA: Isso geralmente não funciona diretamente via file:// devido a políticas de segurança do navegador.
+                 // Funciona melhor se servido por um servidor web local.
+                 fetch('report.json') // Assume que existe um report.json no mesmo diretório
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Dados carregados de report.json");
+                        loadReportData(data);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar report.json:', error);
+                        document.getElementById('loading-message').innerText = 'Falha ao carregar dados do relatório. Verifique o console para detalhes.';
+                        // Opcional: Carregar dados mockados em caso de falha
+                        // loadReportData(getMockData()); 
+                    });
+            }
+        });
+
+        // Função para gerar dados mockados (para teste)
+        function getMockData() {
+             return {
+                "report_id": "mock_report_123",
+                "match_id": "MOCK_NA1_12345",
+                "summoner_name": "MockPlayer",
+                "report_generated_at": new Date().toISOString(),
+                "game_summary": {
+                    "duration_seconds": 1800,
+                    "result": "Vitória",
+                    "champion_played": "Ashe",
+                    "lane": "ADC"
+                },
+                "performance_metrics": {
+                    "kda": "10/2/8",
+                    "kda_ratio": 9.0,
+                    "cs_total": 250,
+                    "cs_per_minute": 8.3,
+                    "vision_score": 35,
+                    "damage_dealt_to_champions": 28000,
+                    "damage_taken": 12000
+                },
+                "tactical_analysis": {
+                    "major_successes": ["Bom posicionamento na luta pelo dragão aos 25min", "Conseguiu farmar bem sob pressão"],
+                    "major_failures": ["Pego fora de posição aos 15min resultando em morte"],
+                    "wave_management_notes": ["Poderia ter feito slow push antes do Arauto"],
+                    "reset_timing_notes": [],
+                    "roaming_notes": []
+                },
+                "coaching_summary": {
+                    "suggestions_made": 5,
+                    "suggestions_followed": 3,
+                    "missed_opportunities": ["Ignorou sugestão de recuar após pegar torre T1"],
+                    "key_advice_given": ["Foque o ADC inimigo", "Cuidado com gank do top", "Posicione-se atrás do seu suporte"]
+                }
+            };
+        }
+
+    </script>
+</body>
+</html>
+

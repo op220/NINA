@@ -1,0 +1,78 @@
+{
+  "composition_types": [
+    {
+      "type_id": "poke_comp",
+      "name": "Poke Composition",
+      "description": "Focuses on dealing damage from a distance to siege towers or whittle down enemies before objectives, avoiding direct all-in fights.",
+      "strengths": [
+        "Strong sieging potential against towers.",
+        "Good at controlling zones around objectives.",
+        "Can win fights before they start by lowering enemy health.",
+        "Relatively safe laning phase for key carries."
+      ],
+      "weaknesses": [
+        "Vulnerable to hard engage and dive compositions.",
+        "Can struggle if enemies can heal or shield through poke.",
+        "Requires good positioning and disengage tools.",
+        "May lack sustained damage in extended fights."
+      ],
+      "key_champion_roles": ["Long-range Mage (Mid)", "Artillery ADC", "Disengage Support", "Waveclear Top/Jungle"],
+      "example_champions": ["Zoe", "Xerath", "Jayce", "Ezreal", "Caitlyn", "Janna", "Ziggs"],
+      "strategic_focus": [
+        "Control vision around objectives.",
+        "Siege towers slowly using poke advantage.",
+        "Avoid all-in fights unless enemies are low.",
+        "Kite back against engage attempts."
+      ]
+    },
+    {
+      "type_id": "dive_comp",
+      "name": "Dive Composition",
+      "description": "Focuses on quickly closing the distance to eliminate high-priority backline targets (like ADCs or Mages).",
+      "strengths": [
+        "Excellent at punishing mispositioned carries.",
+        "Strong snowball potential if ahead.",
+        "Can force fights on their terms.",
+        "Effective against immobile poke or scaling compositions."
+      ],
+      "weaknesses": [
+        "Requires coordination to execute dives successfully.",
+        "Can be kited or peeled if engage fails.",
+        "Vulnerable during cooldown windows after engage.",
+        "May struggle against heavy CC or disengage."
+      ],
+      "key_champion_roles": ["Engage Tank (Top/Jungle/Support)", "Assassin (Mid/Jungle)", "Mobile ADC", "Follow-up CC"],
+      "example_champions": ["Malphite", "Nocturne", "Diana", "Leona", "Kled", "Camille", "Kai'Sa"],
+      "strategic_focus": [
+        "Identify and isolate key targets.",
+        "Coordinate engage timing.",
+        "Secure vision deep in enemy territory to find picks.",
+        "Force objectives after successful dives."
+      ]
+    },
+    {
+      "type_id": "protect_the_carry",
+      "name": "Protect the Carry Composition",
+      "description": "Revolves around enabling and protecting a hyper-carry champion (usually ADC) to deal massive damage in late-game teamfights.",
+      "strengths": [
+        "Extremely strong late-game teamfight potential.",
+        "Hyper-carry can often 1v9 if sufficiently protected.",
+        "Good defensive capabilities."
+      ],
+      "weaknesses": [
+        "Weak early game, vulnerable to pressure.",
+        "Reliant on the hyper-carry staying alive and positioning well.",
+        "Can be countered by strong pick or dive compositions that can eliminate the carry early.",
+        "May lack proactivity on the map early."
+      ],
+      "key_champion_roles": ["Hyper-carry ADC", "Peel Support", "Defensive Mid/Top", "Tanky Jungler with CC"],
+      "example_champions": ["Kog'Maw", "Jinx", "Vayne", "Lulu", "Janna", "Shen", "Galio", "Tahm Kench"],
+      "strategic_focus": [
+        "Survive the early game, funnel resources to the carry.",
+        "Maintain excellent vision control around the carry.",
+        "Peel attackers off the carry in teamfights.",
+        "Play for late-game objectives."
+      ]
+    }
+  ]
+}

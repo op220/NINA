@@ -1,0 +1,56 @@
+{
+  "synergies": [
+    {
+      "combo_id": "yasuo_malphite",
+      "champions": ["Yasuo", "Malphite"],
+      "type": "Teamfight Engage",
+      "description": "Malphite ultimate (Unstoppable Force) provides a guaranteed knock-up for Yasuo ultimate (Last Breath).",
+      "strength_level": "High",
+      "execution_notes": [
+        "Malphite should engage onto multiple targets.",
+        "Yasuo needs to be in range to follow up immediately.",
+        "Requires good communication or visual cues."
+      ],
+      "counter_play": [
+        "Spread out to avoid multi-man Malphite ult.",
+        "Use Flash or mobility to dodge Malphite ult.",
+        "Interrupt Yasuo during his ult animation if possible (e.g., displacement)."
+      ]
+    },
+    {
+      "combo_id": "kaisa_nautilus",
+      "champions": ["Kai'Sa", "Nautilus"],
+      "type": "Lane Kill Pressure / Pick Potential",
+      "description": "Nautilus provides multiple forms of crowd control (hook, passive root, ult knock-up) allowing Kai'Sa to apply her plasma stacks quickly and use her ultimate for follow-up or repositioning.",
+      "strength_level": "High",
+      "execution_notes": [
+        "Nautilus needs to land his Dredge Line (Q).",
+        "Kai'Sa should auto-attack immediately to stack plasma.",
+        "Coordinate burst damage during CC duration."
+      ],
+      "counter_play": [
+        "Dodge Nautilus hook.",
+        "Play safe and respect their all-in potential, especially post-6.",
+        "Cleanse or Quicksilver Sash to remove CC.",
+        "Poke them down before they can engage."
+      ]
+    },
+    {
+      "combo_id": "lucian_nami",
+      "champions": ["Lucian", "Nami"],
+      "type": "Lane Poke / Short Trades",
+      "description": "Nami's Ebb and Flow (W) provides sustain and poke, while her Tidecaller's Blessing (E) empowers Lucian's auto-attacks, synergizing well with his passive (Lightslinger) for strong short trades.",
+      "strength_level": "Medium",
+      "execution_notes": [
+        "Nami should use E on Lucian just before he dashes in (E).",
+        "Lucian uses E -> Passive AA -> Q -> Passive AA for quick burst.",
+        "Use Nami W for poke or sustain as needed."
+      ],
+      "counter_play": [
+        "Avoid Nami's bubble (Q).",
+        "Engage hard when Nami's abilities are on cooldown.",
+        "Out-sustain their poke if possible."
+      ]
+    }
+  ]
+}

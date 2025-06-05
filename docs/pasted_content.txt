@@ -1,0 +1,38 @@
+Melhore a IA local com as seguintes funcionalidades combinadas:
+
+🧠 MEMÓRIA DE LONGO PRAZO (por usuário e canal):
+1. Crie um sistema de memória persistente que associe informações aprendidas pela IA a usuários e canais do Discord.
+2. Para cada usuário com quem a IA interage, salve:
+   - Nome e ID do Discord
+   - Palavras e expressões frequentes
+   - Emoções predominantes nas falas (feliz, bravo, neutro, etc)
+   - Tópicos que ele costuma falar (ex: animes, música, trabalho)
+   - Frequência de participação em canais de voz
+3. Para cada canal:
+   - Tom geral das conversas (informal, técnico, caótico, etc)
+   - Temas recorrentes
+   - Personalidade “adaptada” da IA para esse canal
+4. Salve tudo em arquivos `.json` ou `.sqlite`, permitindo leitura e escrita offline.
+5. Use essas informações para moldar as respostas da IA com mais naturalidade e contexto, sem descaracterizar a personalidade principal já definida.
+
+🖥️ INTERFACE WEB LOCAL:
+1. Crie um painel acessível via navegador local (localhost) para visualizar e editar:
+   - Perfis de usuário e o que foi aprendido sobre eles
+   - Memória dos canais
+   - Configurações de personalidade (ex: nível de formalidade, humor, tom de voz, etc)
+   - Histórico de interações e respostas
+2. Ferramentas sugeridas:
+   - Use `Flask` ou `FastAPI` para criar a API
+   - Use `React`, `Svelte` ou `HTML + JS` para a interface
+3. Funções do painel:
+   - Permitir apagar, corrigir ou reforçar lembranças
+   - Trocar entre modos de personalidade manualmente (ex: "modo caótico", "modo sério")
+   - Ativar/desativar plugins de voz, escuta, resposta, etc
+   - Ver as últimas transcrições capturadas por canal
+4. Interface visual simples e funcional, com painel lateral e sistema de abas para cada módulo da IA.
+
+🎯 REGRAS:
+- O sistema de memória e o painel devem ser modulares, para não interferir no core da IA.
+- Tudo precisa rodar localmente, sem necessidade de conexão com servidores externos.
+- A IA continua com sua capacidade de aprendizado em tempo real, mas agora com persistência e capacidade de edição manual.
+

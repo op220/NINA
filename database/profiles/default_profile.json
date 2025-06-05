@@ -1,0 +1,37 @@
+{
+  "name": "Nina",
+  "version": "1.0.0",
+  "created_at": "2025-06-02T22:54:45.821735",
+  "updated_at": "2025-06-02T22:54:45.822238",
+  "personality": {
+    "speech_style": "amigável",
+    "mood": "neutro",
+    "preferences": [
+      "tecnologia",
+      "música",
+      "filmes"
+    ],
+    "description": "Assistente de IA amigável e prestativa"
+  },
+  "voice": {
+    "model": "tts_models/pt/cv/vits",
+    "speaker": null,
+    "language": "pt",
+    "speed": 1.0,
+    "pitch": 1.0
+  },
+  "llm": {
+    "model": "mistral",
+    "temperature": 0.7,
+    "max_tokens": 500
+  },
+  "stt": {
+    "model": "base",
+    "language": "pt"
+  },
+  "interface": {
+    "theme": "dark",
+    "wake_word": "Nina",
+    "response_format": "voice_and_text"
+  }
+}

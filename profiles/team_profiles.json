@@ -1,0 +1,66 @@
+{
+  "team_profiles": [
+    {
+      "team_id": "default_team",
+      "name": "Time Padrão",
+      "members": [
+        {
+          "summoner_name": "Player1",
+          "role": "Top",
+          "voice_id": "discord_user_123",
+          "preferred_coaching_style": "minimalist",
+          "champion_pool": ["Garen", "Darius", "Sett"],
+          "strengths": ["Laning phase", "Split pushing"],
+          "weaknesses": ["Teamfight coordination", "Map awareness"]
+        },
+        {
+          "summoner_name": "Player2",
+          "role": "Jungle",
+          "voice_id": "discord_user_456",
+          "preferred_coaching_style": "consultant",
+          "champion_pool": ["Lee Sin", "Elise", "Vi"],
+          "strengths": ["Early ganks", "Objective control"],
+          "weaknesses": ["Late game scaling", "Counter-jungling defense"]
+        },
+        {
+          "summoner_name": "Player3",
+          "role": "Mid",
+          "voice_id": "discord_user_789",
+          "preferred_coaching_style": "tutor",
+          "champion_pool": ["Ahri", "Syndra", "Orianna"],
+          "strengths": ["Skill shots", "Roaming"],
+          "weaknesses": ["Defensive warding", "Mana management"]
+        },
+        {
+          "summoner_name": "Player4",
+          "role": "ADC",
+          "voice_id": "discord_user_101",
+          "preferred_coaching_style": "adaptive",
+          "champion_pool": ["Jinx", "Caitlyn", "Ezreal"],
+          "strengths": ["Positioning", "Farming"],
+          "weaknesses": ["Aggressive trading", "Target selection"]
+        },
+        {
+          "summoner_name": "Player5",
+          "role": "Support",
+          "voice_id": "discord_user_112",
+          "preferred_coaching_style": "consultant",
+          "champion_pool": ["Thresh", "Leona", "Lulu"],
+          "strengths": ["Engage timing", "Vision control"],
+          "weaknesses": ["Roaming", "Synergy with jungler"]
+        }
+      ],
+      "team_stats": {
+        "games_played": 0,
+        "wins": 0,
+        "losses": 0,
+        "average_game_duration": 0
+      },
+      "team_strengths": ["Early game pressure", "Dragon control"],
+      "team_weaknesses": ["Late game macro", "Baron setup"],
+      "preferred_compositions": ["dive_comp", "protect_the_carry"],
+      "communication_style": "Focused on objective calls and enemy cooldowns",
+      "practice_schedule": "Tuesday, Thursday, Saturday evenings"
+    }
+  ]
+}

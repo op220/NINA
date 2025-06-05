@@ -1,0 +1,64 @@
+{
+  "champions": [
+    {
+      "name": "Lux",
+      "role": "Mid",
+      "elo_tier": "Gold+", // Data specific to this tier and above
+      "power_spikes": [
+        {"item": "Luden's Tempest", "timing": "First item", "description": "Significant burst increase and waveclear.", "type": "item"},
+        {"level": 6, "timing": "Level 6", "description": "Ultimate unlock enables long-range picks and burst.", "type": "level"},
+        {"level": 11, "timing": "Level 11", "description": "Ultimate cooldown reduction and damage increase.", "type": "level"}
+      ],
+      "core_build": [
+        "Luden's Tempest", "Sorcerer's Shoes", "Shadowflame", "Rabadon's Deathcap", "Void Staff", "Zhonya's Hourglass"
+      ],
+      "runes": {
+        "primary_tree": "Sorcery",
+        "keystone": "Arcane Comet",
+        "secondary_tree": "Inspiration",
+        "shards": ["Adaptive Force", "Adaptive Force", "Armor/Magic Resist (matchup dependent)"]
+      },
+      "matchups": [
+        {"opponent": "Zed", "difficulty": "Hard", "tips": "Take Exhaust. Rush Zhonya's after Luden's. Poke safely and respect his all-in post-6.", "synergy": "Low"},
+        {"opponent": "Veigar", "difficulty": "Medium", "tips": "Outrange him early. Dodge his cage. Look for picks with R when he missteps.", "synergy": "Medium"},
+        {"opponent": "Yasuo", "difficulty": "Skill", "tips": "Bait his Wind Wall before using Q/E. Poke through his shield. Respect his mobility.", "synergy": "Medium"}
+      ],
+      "general_tips": [
+        "Use E for zoning and waveclear.",
+        "Look for long-range snipes with R on low-health targets or objectives.",
+        "Position safely in teamfights, using Q for picks or peel."
+      ]
+    },
+    {
+      "name": "Garen",
+      "role": "Top",
+      "elo_tier": "Silver+",
+      "power_spikes": [
+        {"item": "Stridebreaker", "timing": "First item", "description": "Adds mobility, waveclear, and sticking power.", "type": "item"},
+        {"level": 6, "timing": "Level 6", "description": "Ultimate provides significant execute damage.", "type": "level"},
+        {"item": "Dead Man's Plate", "timing": "Second/Third item", "description": "Increased movement speed for engages and picks.", "type": "item"}
+      ],
+      "core_build": [
+        "Stridebreaker", "Plated Steelcaps/Mercury's Treads", "Dead Man's Plate", "Sterak's Gage", "Force of Nature", "Thornmail"
+      ],
+      "runes": {
+        "primary_tree": "Precision",
+        "keystone": "Conqueror",
+        "secondary_tree": "Resolve",
+        "shards": ["Attack Speed", "Adaptive Force", "Armor/Magic Resist"]
+      },
+      "matchups": [
+        {"opponent": "Darius", "difficulty": "Hard", "tips": "Avoid extended trades. Respect his passive stacks. Look for short Q trades and disengage with W.", "synergy": "Low"},
+        {"opponent": "Teemo", "difficulty": "Medium", "tips": "Use W to mitigate blind/poke. All-in when his blind is down. Rush Stridebreaker for gap close.", "synergy": "Medium"},
+        {"opponent": "Kayle", "difficulty": "Easy", "tips": "Punish her weak early game. All-in post-6 before she scales. Deny farm.", "synergy": "High"}
+      ],
+      "general_tips": [
+        "Use passive regeneration effectively by stepping out of combat.",
+        "Q cleanses slows and provides movement speed for engage/disengage.",
+        "Look for flanks in teamfights to reach the backline."
+      ]
+    }
+    // Add more champions with detailed meta information
+  ]
+}
+

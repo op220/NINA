@@ -1,0 +1,90 @@
+/home/ubuntu/analise_ia:
+total 1148
+-rw-rw-r-- 1 ubuntu ubuntu  1480 May 30  2025 App.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 15152 May 30  2025 Arquitetura da Interface Web Local para Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu 12142 May 30  2025 Arquitetura do Sistema de Memória de Longo Prazo para Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu 16207 May 30  2025 ChannelDetail.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 10764 May 30  2025 Channels.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 20012 May 30  2025 Documentação do Sistema de Aprendizado de Personalidade para Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu  2275 May 30  2025 GUIA_RAPIDO.md
+-rw-rw-r-- 1 ubuntu ubuntu  2782 May 30  2025 Header.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 11368 May 30  2025 Home.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 67766 May 30  2025 Integração do Sistema de Personalidade por Canal com o Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu 11977 May 30  2025 Nina IA - Documentação.md
+-rw-rw-r-- 1 ubuntu ubuntu  7765 May 30  2025 Resumo da Conversa e Tarefas Realizadas - Projeto Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu 16209 May 30  2025 Settings.svelte
+-rw-rw-r-- 1 ubuntu ubuntu  2952 May 30  2025 Sidebar.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 15585 May 30  2025 Statistics.svelte
+-rw-rw-r-- 1 ubuntu ubuntu  3405 May 30  2025 Tecnologias Selecionadas para Implementação.md
+-rw-rw-r-- 1 ubuntu ubuntu 60199 May 30  2025 Testes do Sistema de Aprendizado de Personalidade para Nina IA.md
+-rw-rw-r-- 1 ubuntu ubuntu 40878 May 30  2025 Tutorial Completo: Instalação da IA Nina do Zero no Windows.md
+-rw-rw-r-- 1 ubuntu ubuntu 16202 May 30  2025 UserDetail.svelte
+-rw-rw-r-- 1 ubuntu ubuntu  8489 May 30  2025 Users.svelte
+-rw-rw-r-- 1 ubuntu ubuntu 10984 May 30  2025 __init__.py
+-rw-rw-r-- 1 ubuntu ubuntu 16192 May 30  2025 adaptacao_plugins.md
+-rw-rw-r-- 1 ubuntu ubuntu  7744 May 30  2025 api.js
+-rw-rw-r-- 1 ubuntu ubuntu 16164 May 30  2025 api.py
+-rw-rw-r-- 1 ubuntu ubuntu  5765 May 30  2025 audio_capture.py
+-rw-rw-r-- 1 ubuntu ubuntu 16204 May 30  2025 audio_playback.py
+-rw-rw-r-- 1 ubuntu ubuntu  8493 May 30  2025 audio_player.py
+-rw-rw-r-- 1 ubuntu ubuntu  6652 May 30  2025 channels.py
+-rw-rw-r-- 1 ubuntu ubuntu 16125 May 30  2025 database.py
+-rw-rw-r-- 1 ubuntu ubuntu   713 May 30  2025 default_profile.json
+-rw-rw-r-- 1 ubuntu ubuntu     0 May 30 07:07 estrutura_projeto.txt
+-rw-rw-r-- 1 ubuntu ubuntu  1773 May 30  2025 global.css
+-rw-rw-r-- 1 ubuntu ubuntu   526 May 30  2025 index.html
+-rw-rw-r-- 1 ubuntu ubuntu  2936 May 30  2025 interactions.py
+-rw-rw-r-- 1 ubuntu ubuntu  9769 May 30  2025 llm_module.py
+-rw-rw-r-- 1 ubuntu ubuntu  9341 May 30  2025 llm_processor.py
+-rw-rw-r-- 1 ubuntu ubuntu   145 May 30  2025 main.js
+-rw-rw-r-- 1 ubuntu ubuntu  1670 May 30  2025 main.py
+-rw-rw-r-- 1 ubuntu ubuntu 16202 May 30  2025 mecanismos_controle_seguranca.md
+-rw-rw-r-- 1 ubuntu ubuntu  4609 May 30  2025 memoryStore.js
+-rw-rw-r-- 1 ubuntu ubuntu 10622 May 30  2025 memory_adapter.py
+-rw-rw-r-- 1 ubuntu ubuntu 16287 May 30  2025 memory_client.py
+-rw-rw-r-- 1 ubuntu ubuntu 10588 May 30  2025 memory_integrator.py
+-rw-rw-r-- 1 ubuntu ubuntu 16184 May 30  2025 memory_manager.py
+-rw-rw-r-- 1 ubuntu ubuntu 14496 May 30  2025 memory_orchestrator.py
+-rw-rw-r-- 1 ubuntu ubuntu 14859 May 30  2025 nina_ia.py
+-rw-rw-r-- 1 ubuntu ubuntu 77171 May 30  2025 nina_ia_sistema_memoria.zip
+-rw-rw-r-- 1 ubuntu ubuntu  7944 May 30  2025 ollama_client.py
+-rw-rw-r-- 1 ubuntu ubuntu 16164 May 30  2025 orchestrator.py
+-rw-rw-r-- 1 ubuntu ubuntu   801 May 30  2025 package.json
+-rw-rw-r-- 1 ubuntu ubuntu  2120 May 30  2025 pasted_content.txt
+-rw-rw-r-- 1 ubuntu ubuntu 16265 May 30  2025 pattern_analyzer.py
+-rw-rw-r-- 1 ubuntu ubuntu 16143 May 30  2025 personalidade_por_canal.md
+-rw-rw-r-- 1 ubuntu ubuntu  1697 May 30  2025 personalityStore.js
+-rw-rw-r-- 1 ubuntu ubuntu 16198 May 30  2025 personality_manager.py
+-rw-rw-r-- 1 ubuntu ubuntu  1874 May 30  2025 pesquisa_tecnologias.md
+-rw-rw-r-- 1 ubuntu ubuntu  9709 May 30  2025 profiles_manager.py
+-rw-rw-r-- 1 ubuntu ubuntu   382 May 30  2025 requirements.txt
+-rw-rw-r-- 1 ubuntu ubuntu  9294 May 30  2025 resumo_chat_nina_ia.md
+-rw-rw-r-- 1 ubuntu ubuntu  2107 May 30  2025 rollup.config.js
+-rw-rw-r-- 1 ubuntu ubuntu 13956 May 30  2025 session_manager.py
+-rw-rw-r-- 1 ubuntu ubuntu  6436 May 30  2025 settings.py
+-rw-rw-r-- 1 ubuntu ubuntu  3100 May 30  2025 settingsStore.js
+-rw-rw-r-- 1 ubuntu ubuntu 16195 May 30  2025 sistema_analise_padroes.md
+-rw-rw-r-- 1 ubuntu ubuntu 15085 May 30  2025 sistema_coleta_discord.md
+-rw-rw-r-- 1 ubuntu ubuntu 16233 May 30  2025 sistema_diarizacao_falantes.md
+-rw-rw-r-- 1 ubuntu ubuntu 11630 May 30  2025 sistema_memoria_interface_web.md
+-rw-rw-r-- 1 ubuntu ubuntu 16149 May 30  2025 sistema_personalidade_dinamica.md
+-rw-rw-r-- 1 ubuntu ubuntu  3610 May 30  2025 statistics.py
+-rw-rw-r-- 1 ubuntu ubuntu  6401 May 30  2025 stt_module.py
+-rw-rw-r-- 1 ubuntu ubuntu  1290 May 30  2025 tailwind.config.js
+-rw-rw-r-- 1 ubuntu ubuntu 16227 May 30  2025 test_components.py
+-rw-rw-r-- 1 ubuntu ubuntu 14594 May 30  2025 test_integration.py
+-rw-rw-r-- 1 ubuntu ubuntu 16161 May 30  2025 test_memory_system.py
+-rw-rw-r-- 1 ubuntu ubuntu 13309 May 30  2025 test_nina_ia.py
+-rw-rw-r-- 1 ubuntu ubuntu 16139 May 30  2025 test_web_api.py
+-rw-rw-r-- 1 ubuntu ubuntu   954 May 30  2025 todo.md
+-rw-rw-r-- 1 ubuntu ubuntu  8660 May 30  2025 transcriber.py
+-rw-rw-r-- 1 ubuntu ubuntu  9098 May 30  2025 tts_module.py
+-rw-rw-r-- 1 ubuntu ubuntu  8281 May 30  2025 tts_synthesizer.py
+-rw-rw-r-- 1 ubuntu ubuntu  2185 May 30  2025 tutorial_nina_ia_windows.md
+-rw-rw-r-- 1 ubuntu ubuntu  6536 May 30  2025 tutorial_nina_ia_windows_parte1.md
+-rw-rw-r-- 1 ubuntu ubuntu  5340 May 30  2025 tutorial_nina_ia_windows_parte2.md
+-rw-rw-r-- 1 ubuntu ubuntu 16240 May 30  2025 tutorial_nina_ia_windows_parte3.md
+-rw-rw-r-- 1 ubuntu ubuntu 16207 May 30  2025 tutorial_nina_ia_windows_parte4.md
+-rw-rw-r-- 1 ubuntu ubuntu  9547 May 30  2025 tutorial_nina_ia_windows_parte5.md
+-rw-rw-r-- 1 ubuntu ubuntu 11243 May 30  2025 tutorial_nina_ia_windows_parte6.md
+-rw-rw-r-- 1 ubuntu ubuntu  5751 May 30  2025 users.py

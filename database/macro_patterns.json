@@ -1,0 +1,64 @@
+{
+  "patterns": [
+    {
+      "pattern_id": "early_lane_freeze",
+      "description": "Freezing the wave near your own tower early game, typically levels 1-5.",
+      "conditions": [
+        "Game time < 360s",
+        "Enemy laner has poor waveclear or is melee",
+        "Own jungler pathing nearby for gank setup",
+        "Wave position is closer to own tower than center"
+      ],
+      "counter_play": [
+        "Hard push to break the freeze",
+        "Call for jungler assistance",
+        "Roam to another lane if unable to break"
+      ],
+      "execution_tips": [
+        "Tank 3 caster minions just outside tower range",
+        "Match enemy last hits only",
+        "Keep minion count slightly favoring the enemy (e.g., +3 casters)"
+      ]
+    },
+    {
+      "pattern_id": "slow_push_objective_setup",
+      "description": "Building a large minion wave (slow push) in a side lane before an objective spawns.",
+      "conditions": [
+        "Major objective (Dragon/Baron) spawning in 60-90s",
+        "Side lane wave is near own side of the map",
+        "Enemy side laner is not present or cannot easily clear"
+      ],
+      "counter_play": [
+        "Send someone to clear the wave quickly",
+        "Force a fight before the wave crashes",
+        "Trade objectives if wave clear is too slow"
+      ],
+      "execution_tips": [
+        "Kill only caster minions of an incoming wave",
+        "Let your melee minions stack up",
+        "Time the push so it crashes as the objective spawns"
+      ]
+    },
+    {
+      "pattern_id": "reset_timing_cheater_recall",
+      "description": "Quickly pushing the first few waves and recalling early to gain an item/health advantage.",
+      "conditions": [
+        "Levels 2-4",
+        "Can push the third wave under enemy tower quickly",
+        "Have enough gold for a component item (e.g., Doran's Blade/Ring + pots)"
+      ],
+      "counter_play": [
+        "Match the push if possible",
+        "Freeze the wave if they recall without crashing",
+        "Ping jungler about the recall timing"
+      ],
+      "execution_tips": [
+        "Use abilities to clear the third wave fast",
+        "Recall immediately after the wave crashes",
+        "Return to lane before the wave pushes back fully"
+      ]
+    }
+    // Add more macro patterns (roaming windows, objective control setups, pressure types)
+  ]
+}
+

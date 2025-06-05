@@ -46,7 +46,7 @@ class NinaOrchestrator:
         self.use_cuda = use_cuda
         
         # Diretórios para componentes
-        self.profiles_dir = os.path.join(self.data_dir, "profiles")
+        self.profiles_dir = get_config("paths.profiles", os.path.join(ROOT_DIR, "profiles"))
         self.memory_dir = os.path.join(self.data_dir, "memory")
         
         # Criar diretórios se não existirem
